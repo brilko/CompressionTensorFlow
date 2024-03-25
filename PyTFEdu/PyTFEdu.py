@@ -21,6 +21,10 @@ compressed = model.compressionModel.predict(data)
 
 compressed = np.array(compressed, dtype='float16')
 
+model.restoreModel.compile(optimizer='Adam',
+                  loss = 'MeanSquaredError')
+model.restoreModel.fit(compressed, data, epochs=c.epochs)
+
 restoreWeights = model.restoreModel.weights
 
 compressedPhoto = CompressedPhoto(compressed, restoreWeights, shape, c.pixelsPerTile)
@@ -35,5 +39,6 @@ restored = model.restoreModel.predict(compressed)
 recovered = ic.recoverNpImage(restored, shape)
 
 iIO.showImage(recovered)
+iIO.saveImage(p.destiny+'best.jpg', recovered)
 
 z = 0

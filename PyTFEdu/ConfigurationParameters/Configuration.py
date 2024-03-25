@@ -1,6 +1,6 @@
 class Configuration():
     def __init__(self):
-        self._epochs = 1
+        self._epochs = 10
         self._pixelsPerTile = 20
         self._midleUnitVolume = 5
         
