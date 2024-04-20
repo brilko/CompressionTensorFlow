@@ -13,32 +13,62 @@ data, shape = ic.normalizeNpImage(npImage)
 
 (height, width, chanels) = shape
 
-model.compile(chanels)
+data = data * 255
+data = data.round()
+data = np.array(data, dtype='uint8')
+class treeNode():
+    def __init__(self, chanel: int):
+        self.chanel = chanel
+        self.count = 1
+        self.children: list[treeNode] = []
+        
+    def toChild(self, childChanel: int):
+        self.count += 1
+        for child in self.children:
+            if child.chanel == childChanel:
+                return child
+        newChild = treeNode(childChanel)
+        self.children.append(newChild)
+        return newChild
+        
+tree = treeNode(-1)
+branch = tree
+for tile in data:
+    branch = tree
+    for chanel in tile:
+        branch = branch.toChild(chanel)
 
-model.fit(data)
-
-compressed = model.compressionModel.predict(data)
-
-compressed = np.array(compressed, dtype='float16')
-
-model.restoreModel.compile(optimizer='Adam',
-                  loss = 'MeanSquaredError')
-model.restoreModel.fit(compressed, data, epochs=c.epochs)
-
-restoreWeights = model.restoreModel.weights
-
-compressedPhoto = CompressedPhoto(compressed, restoreWeights, shape, c.pixelsPerTile)
-
-with open('Encoded/there', 'wb') as f:
-    pickle.dump(compressedPhoto, f)
     
-with open('Encoded/there', 'rb') as f:
-    e = pickle.load(f)
 
-restored = model.restoreModel.predict(compressed)
 recovered = ic.recoverNpImage(restored, shape)
 
 iIO.showImage(recovered)
-iIO.saveImage(p.destiny+'best.jpg', recovered)
+# iIO.saveImage(p.destiny+'best.jpg', recovered)
 
 z = 0
+
+
+
+# model.compile(chanels)
+
+# model.fit(data)
+
+# compressed = model.compressionModel.predict(data)
+
+# compressed = np.array(compressed, dtype='float16')
+
+# model.restoreModel.compile(optimizer='Adam',
+#                   loss = 'MeanSquaredError')
+# model.restoreModel.fit(compressed, data, epochs=c.epochs)
+
+# restoreWeights = model.restoreModel.weights
+
+# compressedPhoto = CompressedPhoto(compressed, restoreWeights, shape, c.pixelsPerTile)
+
+# with open('Encoded/there', 'wb') as f:
+#     pickle.dump(compressedPhoto, f)
+    
+# with open('Encoded/there', 'rb') as f:
+#     e = pickle.load(f)
+
+# restored = model.restoreModel.predict(compressed)
