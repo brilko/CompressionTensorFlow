@@ -1,10 +1,10 @@
 from ConfigurationParameters.Pathes import path as p
 from ImageIO import imageIO as iIO
-from NpImageConverter import npImageConverter as ic
-from CompressionModel import codec
+from CodecUtils.NpImageConverter import npImageConverter as ic
+from CodecUtils.NeuroNet import neuroNet
 import pickle
 import numpy as np
-from CompressedPhoto import CompressedPhoto
+from CodecUtils.CompressedPhoto import CompressedPhoto
 from ConfigurationParameters.Configuration import configuration as c
 
 #	TODO:
@@ -26,18 +26,18 @@ data, shape = ic.normalizeNpImage(npImage)
 
 (height, width, chanels) = shape
 
-codec.compile(chanels)
+neuroNet.compile(chanels)
 
-codec.fit(data)
+neuroNet.fit(data)
 
-compressed = codec.coder.predict(data)
+compressed = neuroNet.coder.predict(data)
 
 compressed = np.array(compressed, dtype='float16')
 
-codec.encoder.compile(optimizer='Adam', loss = 'MeanSquaredError')
-codec.encoder.fit(compressed, data, epochs=c.epochs)
+neuroNet.encoder.compile(optimizer='Adam', loss = 'MeanSquaredError')
+neuroNet.encoder.fit(compressed, data, epochs=c.epochs)
 
-restoreWeights = codec.encoder.weights
+restoreWeights = neuroNet.encoder.weights
 
 compressedPhoto = CompressedPhoto(compressed, restoreWeights, shape, c.pixelsPerTile)
 
@@ -47,9 +47,9 @@ with open('Encoded/there', 'wb') as f:
 with open('Encoded/there', 'rb') as f:
     compressedPhoto: CompressedPhoto = pickle.load(f)
 
-codec.encoder.set_weights(compressedPhoto.weights)
+neuroNet.encoder.set_weights(compressedPhoto.weights)
 
-restored = codec.encoder.predict(compressedPhoto.compressedTiles)
+restored = neuroNet.encoder.predict(compressedPhoto.compressedTiles)
 recovered = ic.recoverNpImage(restored, compressedPhoto.shape)
 
 iIO.showImage(recovered)

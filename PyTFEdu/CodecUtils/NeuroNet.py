@@ -1,14 +1,12 @@
 import keras
 from keras import layers
 from numpy import ndarray
-from ConfigurationParameters.Configuration import configuration as c
 
-class Codec():
+class NeuroNet():
     def __init__(self):
         None
     
-    def compile(self, chanels: int, midleUnitVolume: int = c.midleUnitVolume):
-        tileVolume = c.pixelsPerTile * chanels
+    def compile(self, tileVolume: int, midleUnitVolume: int):
         self.coder = keras.Sequential([
             layers.Dense(midleUnitVolume),
         ])
@@ -23,10 +21,10 @@ class Codec():
         self.model.compile(optimizer='Adam',
                   loss = 'MeanSquaredError')
 
-    def fit(self, data: ndarray):
-        self.model.fit(data, data, epochs=c.epochs)
+    def fit(self, data: ndarray, epochs: int = 2):
+        self.model.fit(data, data, epochs=epochs)
 
     def predict(self, data: ndarray):
         return self.model.predict(data)
 
-codec = Codec()
+neuroNet = NeuroNet()

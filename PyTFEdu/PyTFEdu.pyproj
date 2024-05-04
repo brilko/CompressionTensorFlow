@@ -21,17 +21,19 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="CompressedPhoto.py" />
-    <Compile Include="CompressionModel.py" />
+    <Compile Include="CodecUtils\Codec.py" />
+    <Compile Include="CodecUtils\CompressedPhoto.py" />
+    <Compile Include="CodecUtils\NeuroNet.py" />
     <Compile Include="ConfigurationParameters\Configuration.py" />
     <Compile Include="Encoding.py" />
     <Compile Include="ImageIO.py" />
-    <Compile Include="NpImageConverter.py" />
+    <Compile Include="CodecUtils\NpImageConverter.py" />
     <Compile Include="PyTFEdu.py" />
     <Compile Include="ConfigurationParameters\Pathes.py" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ConfigurationParameters\" />
+    <Folder Include="CodecUtils\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include=".editorconfig" />
