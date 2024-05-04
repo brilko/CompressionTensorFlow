@@ -1,19 +1,11 @@
 class Pathes():
     def __init__(self):
         pathToImages = '../../Img/'
-        sourceFileName = 'leopard.jpg'#'leopardSmall.bmp'
-        destinyFileName = 'leopardOut.bmp'
-        self._sourcePath = pathToImages + sourceFileName
-        self._destinyPath = pathToImages + destinyFileName
-        
-
-    @property
-    def source(self):
-        return self._sourcePath
-    
-    @property
-    def destiny(self):
-        return self._destinyPath
+        self.leopardSource = pathToImages + 'leopard.bmp' 
+        self.leopardResultDirectory = pathToImages + 'leopardResults'
+        self.railwaySource = pathToImages + 'railway_carriage.bmp'
+        self.railwayResultDirectory = pathToImages + 'railwayResults'
+        self.skyskebSource = pathToImages + 'skyskeb_one.bmp'
+        self.skyskebResultDirectory = pathToImages + 'skyskebResults'
 
 path = Pathes()
-

@@ -4,7 +4,3 @@ class CompressedPhoto():
         self.weights = weights
         self.shape = shape
         self.pixelsPerTile = pixelsPerTile
-
-
-
-
