@@ -1,7 +1,7 @@
 from ConfigurationParameters.Pathes import path as p
 from ImageIO import imageIO as iIO
 from NpImageConverter import npImageConverter as ic
-from CompressionModel import compressionModel as model
+from CompressionModel import codec
 import pickle
 import numpy as np
 from CompressedPhoto import CompressedPhoto
@@ -20,24 +20,24 @@ from ConfigurationParameters.Configuration import configuration as c
 # Провести расчёты эффективности по потере точности, времени работы, степени сжатия
 # Сохранить полученные картинки и метрики 
 
-npImage = iIO.readImage(p.leopard)
+npImage = iIO.readImage(p.leopardSource)
 
 data, shape = ic.normalizeNpImage(npImage)
 
 (height, width, chanels) = shape
 
-model.compile(chanels)
+codec.compile(chanels)
 
-model.fit(data)
+codec.fit(data)
 
-compressed = model.compressionModel.predict(data)
+compressed = codec.coder.predict(data)
 
 compressed = np.array(compressed, dtype='float16')
 
-model.restoreModel.compile(optimizer='Adam', loss = 'MeanSquaredError')
-model.restoreModel.fit(compressed, data, epochs=c.epochs)
+codec.encoder.compile(optimizer='Adam', loss = 'MeanSquaredError')
+codec.encoder.fit(compressed, data, epochs=c.epochs)
 
-restoreWeights = model.restoreModel.weights
+restoreWeights = codec.encoder.weights
 
 compressedPhoto = CompressedPhoto(compressed, restoreWeights, shape, c.pixelsPerTile)
 
@@ -47,10 +47,10 @@ with open('Encoded/there', 'wb') as f:
 with open('Encoded/there', 'rb') as f:
     compressedPhoto: CompressedPhoto = pickle.load(f)
 
-model.compressionModel.weights = compressedPhoto.weights
+codec.encoder.set_weights(compressedPhoto.weights)
 
-restored = model.restoreModel.predict(compressed)
-recovered = ic.recoverNpImage(restored, shape)
+restored = codec.encoder.predict(compressedPhoto.compressedTiles)
+recovered = ic.recoverNpImage(restored, compressedPhoto.shape)
 
 iIO.showImage(recovered)
-iIO.saveImage(p.destiny+'best.jpg', recovered)
+iIO.saveImage(p.pathToImages+'best.bmp', recovered)

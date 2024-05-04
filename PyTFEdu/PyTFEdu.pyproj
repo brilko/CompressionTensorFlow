@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>f3ce3645-0927-4a8b-82d8-6271e7009c4f</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>PyTFEdu.py</StartupFile>
+    <StartupFile>Encoding.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -24,6 +24,7 @@
     <Compile Include="CompressedPhoto.py" />
     <Compile Include="CompressionModel.py" />
     <Compile Include="ConfigurationParameters\Configuration.py" />
+    <Compile Include="Encoding.py" />
     <Compile Include="ImageIO.py" />
     <Compile Include="NpImageConverter.py" />
     <Compile Include="PyTFEdu.py" />
