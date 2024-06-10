@@ -1,15 +1,14 @@
 from numpy import ndarray
 import numpy as np
-from ConfigurationParameters.Configuration import configuration as c
 
 class NpImageConverter():
     def __init__(self):
         None
     
-    def normalizeNpImage(self, npImage: ndarray):
+    def normalizeNpImage(self, npImage: ndarray, pixelsPerTile: int):
         (height, width, chanels) = npImage.shape
         data = npImage.copy()
-        data = data.reshape((round(height*width/c.pixelsPerTile), c.pixelsPerTile*chanels))    
+        data = data.reshape((round(height*width/pixelsPerTile), pixelsPerTile*chanels))    
         data = data / 255.0
         return data, (height, width, chanels)
     
@@ -21,6 +20,5 @@ class NpImageConverter():
         recovered = recovered.round()
         recovered = np.array(recovered, dtype='uint8')
         return recovered
-
 
 npImageConverter = NpImageConverter()

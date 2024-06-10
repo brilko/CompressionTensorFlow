@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>f3ce3645-0927-4a8b-82d8-6271e7009c4f</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>Encoding.py</StartupFile>
+    <StartupFile>PyTFEdu.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -23,9 +23,9 @@
   <ItemGroup>
     <Compile Include="CodecUtils\Codec.py" />
     <Compile Include="CodecUtils\CompressedPhoto.py" />
+    <Compile Include="CodecUtils\NeuroNetParameters.py" />
     <Compile Include="CodecUtils\NeuroNet.py" />
     <Compile Include="ConfigurationParameters\Configuration.py" />
-    <Compile Include="Encoding.py" />
     <Compile Include="ImageIO.py" />
     <Compile Include="CodecUtils\NpImageConverter.py" />
     <Compile Include="PyTFEdu.py" />
